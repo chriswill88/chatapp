@@ -1,6 +1,6 @@
 .chatroom-container {
     width: 500px;
-    height: 1000px;
+    height: 80vh;
 
     border-radius: 10px;
     background-color: rgb(244, 244, 244);
@@ -62,7 +62,7 @@
 }
 
 .message-container {
-    margin: 20px;
+    margin: 0 20px 0 20px;
 }
 
 .message {
@@ -106,6 +106,7 @@
 .textbox-container {
     /* position: relative;
     top: 50px; */
+    margin-bottom: 10px;
 
     background-color: rgb(255, 255, 255);
     width: 460px;

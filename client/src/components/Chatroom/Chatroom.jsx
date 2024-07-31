@@ -1,83 +1,106 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+// import io from 'socket.io-client';
 import './Chatroom.css'
+import { useSocket } from '../../context/SocketContext';
+import { useUser } from '../../context/UserContext';
+
+// const socket = io.connect("http://localhost:3000");
+
+// const fakeData = {
+//     user: {
+//         id: "chris"
+//     }, 
+//     messages: [
+//         {
+//             id: "Server",
+//             id: "Server",
+//             message: "User Just Joined",
+//             status: "sent",
+//             time: "1:00 pm"
+//         },
+//         {
+//             id: "me",
+//             id: "chris",
+//             message: "hey",
+//             status: "sent",
+//             time: "1:00 pm"
+//         },
+//         {
+//             id: "you",
+//             id: "bill",
+//             message: "hey",
+//             time: "1:01 pm"
+
+//         },
+//         {
+//             id: "someone",
+//             id: "jill",
+//             message: "hey",
+//             time: "1:03 pm"
+
+//         },
+//         {
+//             id: "me",
+//             id: "chris",
+//             message: "lol",
+//             time: "1:05 pm"
 
 
-const fakeData = {
-    user: {
-        id: "me",
-        userName: "chris"
-    }, 
-    messages: [
-        {
-            id: "me",
-            userName: "chris",
-            message: "hey",
-            status: "sent",
-            time: "1:00 pm"
-        },
-        {
-            id: "you",
-            userName: "bill",
-            message: "hey",
-            time: "1:01 pm"
-
-        },
-        {
-            id: "someone",
-            userName: "jill",
-            message: "hey",
-            time: "1:03 pm"
-
-        },
-        {
-            id: "me",
-            userName: "chris",
-            message: "lol",
-            time: "1:05 pm"
-
-
-        }
-    ]
-}
-
-function formatAMPM(date) {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'pm' : 'am';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
-    return strTime;
-  }
+//         }
+//     ]
+// }
 
 
 export default function Chatroom() {
+    const {socket} = useSocket()
     const messageRef = useRef();
-    const [messages, setMessages] = useState(fakeData.messages)
+    const messagesRef = useRef([])
+    const [messages, setMessages] = useState([])
+    const {userRef} = useUser()
+
+
+    useEffect(() => {
+        socket.on("ready_user", (serverCall) => {
+            console.log("RECIEVED FROM SERVER", serverCall)
+            messagesRef.current.push(JSON.parse(serverCall))
+            console.log("current message ref", messagesRef.current)
+            setMessages([])
+        })
+
+        socket.on("message_recieved", (messageObj) => {
+            console.log("Recieved from Server ->", messageObj)
+            messagesRef.current.push(JSON.parse(messageObj))
+            console.log("current message ref", messagesRef.current)
+            setMessages([])
+        })
+
+        return () => {
+            socket.off("ready_user");
+            socket.off("message_recieved");
+        }
+    }, [socket])
 
     useEffect(() => {
         const element = document.getElementById("message-box")
         element.scrollTop = element.scrollHeight;
-        setMessages(fakeData.messages)
+
+        setMessages(messagesRef.current)
     }, [messages])
 
     const handleSubmit = (e) => {
         // prevent browser from reloading the page
         e.preventDefault()
+
         document.getElementById("output").value = "";
         if (!messageRef.current) {
             return true;
         }
-        const time = new Date();
-        const messageSendObj = {
-            id: fakeData.user.id,
-            userName: fakeData.user.userName,
+
+        socket.emit("send_message", {
             message: messageRef.current,
-            time: formatAMPM(time)
-        }
-        fakeData.messages.push(messageSendObj)
-        setMessages([])
+            id: userRef.current.userName
+        }, )
+
         messageRef.current = null
     }
 
@@ -88,22 +111,19 @@ export default function Chatroom() {
     const Messaging = (() => {
         console.log("messaging runs again...")
         {/* post a message */}
-        return messages.map((message, ind)=> {
-            if (message.id == fakeData.user.id) {
-                return <div className='message-container my-message-block'>
-                    <span className='name'>{message.userName}</span>
-                    <div key={ind} className="message me">
-                        <span className='text'>{message.message}</span>
-                    </div>
-                    <span className="time">{message.time}</span>
+        return messages.map((mess, ind)=> {
+            if (mess.id == 'Server') {
+                return <div key={ind}>
+                    <span>{mess.message}</span>
                 </div>
-            } else {
-                return <div className='message-container your-message-block'>
-                    <span className='name'>{message.userName}</span>
-                    <div key={ind} className="message anyone">
-                        <span className='text'>{message.message}</span>
+            }
+            else {
+                return <div key={ind} className={`message-container ${(mess.id == userRef.current.userName) ? 'my-message-block' : 'your-message-block'}`}>
+                    <span className='name'>{mess.id}</span>
+                    <div className={`message ${mess.id == userRef.current.userName ? 'me' : 'anyone'}`}>
+                        <span className='text'>{mess.message}</span>
                     </div>
-                    <span className="time">{message.time}</span>
+                    <span className="time">{mess.time}</span>
                 </div>
             }
         })

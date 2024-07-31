@@ -1,17 +1,21 @@
-import './App.css'
 import Chatroom from './components/Chatroom/Chatroom'
+import Login from './components/Login/Login'
+import { UserProvider } from './context/UserContext';
+import './App.css'
+import { SocketProvider } from './context/SocketContext';
+
+
 
 function App() {
-
   return (
-    <>
-      <div>
+    <SocketProvider>
+      <UserProvider>
         {/* login */}
-
+        <Login />
         {/* chatroom */}
         <Chatroom />
-      </div>
-    </>
+      </UserProvider>
+    </SocketProvider>
   )
 }
 
