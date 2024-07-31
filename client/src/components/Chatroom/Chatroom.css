@@ -26,10 +26,12 @@
 }
 
 .title {
+    color: black;
     margin-left: 20px;
 }
 
 .info {
+    color:black;
     margin-right: 20px;
     width: 50px;
     display: flex;
@@ -40,6 +42,15 @@
 .live-box {
     /* background-color: rgb(255, 0, 0); */
     background-color: green;
+    width: 10px;
+    height: 10px;
+
+    border-radius: 10px;
+}
+
+.nonlive-box {
+    /* background-color: rgb(255, 0, 0); */
+    background-color: rgb(255, 0, 0);
     width: 10px;
     height: 10px;
 
@@ -59,48 +70,6 @@
 
     display: flex;
     flex-direction: column;
-}
-
-.message-container {
-    margin: 0 20px 0 20px;
-}
-
-.message {
-    background-color: rgb(47, 47, 198);
-    padding: 10px;
-    width: max-content;
-    max-width: 400px;
-    box-shadow: 3px 3px rgba(0, 0, 0, 0.285);
-}
-
-.your-message-block {
-    align-self: flex-start;
-}
-
-.anyone {
-    border-radius: 20px 20px 20px 0;
-    background-color: white;
-}
-
-.my-message-block {
-    align-self: flex-end;
-}
-
-.me {
-    border-radius: 20px 20px 0 20px;
-    color: white;
-}
-
-.time {
-    font-size: x-small;
-    display: inline;
-}
-
-.text {
-}
-
-.name {
-    font-size: x-small;
 }
 
 .textbox-container {
@@ -126,10 +95,12 @@
     outline: none;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+
+    background-color: white;
+    color: black;
+
 }
 
-
-button {
-    background-color: white;
-    border: none;
+.send-button {
+    color: black;
 }

@@ -3,3 +3,8 @@
     top: 50%;
     right: 40%; */
 }
+
+button[type=submit] {
+    border: 0px solid transparent;
+    background: none;
+}

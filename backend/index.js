@@ -26,31 +26,59 @@ const io = new Server(server, {
     }}
 )
 
+const userSocketMap = {};
+
 io.on("connection", (socket) => {
     console.log(`User connected ${socket.id}`)
 
-    socket.on("new_user", (username) => {
-        const time = new Date();
+    socket.on("error", (err) => {
+        console.log("Error: ", err)
+    });
 
-        const serverCall = JSON.stringify({
+    socket.on("disconnect", (reason) => {
+        console.log(`${userSocketMap[socket.id]} left because of ${reason}`)
+        const time = new Date();
+        console.log("userSockets", userSocketMap)
+        const message = `${userSocketMap[socket.id]} left`;
+        delete userSocketMap[socket.id]
+
+        const serverCall = {
+            id: "Server",
+            message: message,
+            time: formatAMPM(time),
+            userSocketMap: userSocketMap
+        }
+
+        io.sockets.emit("server-call", serverCall);
+        }
+    )
+
+    socket.on("new_user", async (username) => {
+        const time = new Date();
+        userSocketMap[socket.id] = username;
+
+        const serverCall = {
             id: "Server",
             message: `${username} joined!`,
-            time: formatAMPM(time)
-        })
-
+            time: formatAMPM(time),
+            userSocketMap: userSocketMap
+        }
         console.log(`${username} is setup!`)
-        io.sockets.emit("ready_user", serverCall)
-    })
+        console.log("userSockets", userSocketMap)
+
+        io.sockets.emit("server-call", serverCall)
+        }
+    )
     
     socket.on("send_message", (data) => {
         console.log(`message recieved! message -> ${JSON.stringify(data.message)} id ->${JSON.stringify(data.id)}`)
 
         const time = new Date();
-        const messageSendObj = JSON.stringify({
+        const messageSendObj = {
             id: data.id,
             message: data.message,
             time: formatAMPM(time)
-        })
+        }
         console.log(`message ready! ${messageSendObj}`)
 
         io.sockets.emit("message_recieved", messageSendObj)
