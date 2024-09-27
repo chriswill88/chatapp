@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useRef, useState } from "react";
 import io from "socket.io-client";
 
-const URL = "http://192.168.0.92:3001";
+// const URL = "http://192.168.0.92:3001";
+const URL = "http://192.168.254.26:3001";
 // const URL = "https://7572-2600-8805-d08c-1d00-a01d-4a50-bcff-1ff5.ngrok-free.app";
 
 const sock = io(URL, {
@@ -13,9 +14,10 @@ const SocketContext = createContext();
 const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(sock);
     const [users, setUsers] = useState({})
+    const [rooms, setRooms] = useState([])
 
     return (
-        <SocketContext.Provider value={{ socket, users, setUsers }} >
+        <SocketContext.Provider value={{ socket, users, setUsers, rooms, setRooms }} >
             {children}
         </SocketContext.Provider>
     )

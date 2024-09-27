@@ -1,10 +1,335 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  background-color: black;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100vw;
+  height: 100vh;
 }
 
+/* app */
 .app-container {
   display: flex;
+  width: 100vw;
+  
+}
+
+/*Left Panel*/
+.left-panel {
+  height: 100vh;
+  width: 300px;
+
+
+  background-color: rgb(131, 131, 131);
+  resize: horizontal;
+  overflow: auto;
+}
+
+.chatroom-container {
+  width: 300px;
+  height: 300px;
+
+  border-radius: 10px 10px 0px 10px;
+  background-color: aliceblue;
+  resize: both;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* box-shadow: 20px 20px 5px #ffffff07; */
+}
+
+.inner-chat {
+  width: 100%;
+  height: 100%;
+
+  background-color: aquamarine;
+}
+
+.topbar {
+  width: 100%;
+  height: min-content;
+
+  margin-top: 0;
+
+  /* border-radius: 10px 10px 0 0; */
+  background-color: rgb(0, 0, 0);
+
+  border-radius: 10px 10px 0px 0px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  align-self: flex-start;
+}
+
+.exit {
+
+}
+
+
+.cm-group {
+  display: flex; 
+  justify-content: space-around;
+  width: 50px;
+}
+
+.chatarea-container {
+  width: 100%;
+  height: 100vh;
+}
+
+/* profile */
+.profile-container {
+  width: 100%;
+  height: 100%;
+  color: black;
+
+  overflow-y: hidden;
+}
+
+/* general */
+.container {
+  background-color: rgb(72, 66, 66);
+  color: white;
+ }
+
+/* chatroom */
+/* .chatroom-container {
+  width: 500px;
+  height: 80vh; */
+
+  /* border-radius: 10px; */
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow: 0px 0px 0px 5px rgba(17, 17, 17, 0.195);
+} */
+
+.title {
+  padding: 0;
+  margin: 10px;
+  margin-left: 20px;
+}
+
+
+.info {
+  color:rgb(255, 255, 255);
+  width: 50px;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.live-box {
+  /* background-color: rgb(255, 0, 0); */
+  background-color: green;
+  width: 10px;
+  height: 10px;
+
+  border-radius: 10px;
+}
+
+.nonlive-box {
+  /* background-color: rgb(255, 0, 0); */
+  background-color: rgb(255, 0, 0);
+  width: 10px;
+  height: 10px;
+
+  border-radius: 10px;
+}
+
+.messages-container {
+  width: 100%;
+  /* background-color: antiquewhite; */
+
+  height: 100%;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  display: flex;
+  flex-direction: column;
+}
+
+.textbox-container {
+  /* position: relative;
+  top: 50px; */
+
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  /* border-radius: 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+justify-self: end;
+  box-shadow: 0px 9px 20px rgba(0, 0, 0, 0.212);
+}
+
+.textbox {
+  height: max-content;
+  width: 350px;
+  border: none;
+  resize: none;
+  outline: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  background-color: white;
+  color: rgb(0, 0, 0);
+
+}
+
+.send-button {
+  color: black;
+}
+
+/* login */
+.login-container {
+  position: absolute;
+  
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.login-container form {
+  width: fit-content;
+  border-radius: 10px;
+  padding: 20px;
+  border: solid 1px white;
+
+}
+
+
+.submit-button {
+  color: white;
+}
+
+.room-button {
+  color: white;
+
+}
+
+
+
+button[type=submit] {
+  border: 0px solid transparent;
+  background: none;
+}
+
+/* messages */
+.message-container {
+  margin: 0 20px 0 20px;
+}
+
+.server-message {
+  color: rgb(255, 255, 255);
+}
+
+.message {
+  background-color: rgb(47, 47, 198);
+  padding: 10px;
+  width: max-content;
+  max-width: 400px;
+  box-shadow: 3px 3px rgba(0, 0, 0, 0.285);
+}
+
+.your-message-block {
+  align-self: flex-start;
+}
+
+.anyone {
+  border-radius: 20px 20px 20px 0;
+  background-color: white;
+  color: black;
+}
+
+.my-message-block {
+  align-self: flex-end;
+}
+
+.me {
+  border-radius: 20px 20px 0 20px;
+  color: white;
+}
+
+.time {
+  font-size: x-small;
+  display: inline;
+}
+
+.text {
+}
+
+.name {
+  font-size: x-small;
+}
+
+
+/* roompicker */
+.picker-container {
+  width: 300px;
+  height: 80vh;
+
+  /* border-radius: 10px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow: 0px 0px 0px 5px rgba(17, 17, 17, 0.195);
+  /* margin-right: 20px; */
+}
+
+.create-box {
+  display: flex;
+  font-size: smaller;
+
+  margin-bottom: 10px;
+}
+
+/* sidebar */
+.sidebar-container {
+  width: 200px;
+  height: 80vh;
+
+  /* margin-left: 20px; */
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid white;
+}
+
+.users-container {
+  height: 100%;;
+}
+
+.side-container {
+  /* border-radius: 10px; */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  /* margin-bottom: 20px; */
+
+  box-shadow: 0px 0px 0px 5px rgba(17, 17, 17, 0.195);
+  height: 100%;
+}
+
+.color-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

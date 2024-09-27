@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "client": "file:",
     "react": "^18.3.1",
+    "react-best-gradient-color-picker": "^3.0.10",
     "react-dom": "^18.3.1",
     "socket.io-client": "^4.7.5"
   },

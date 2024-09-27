@@ -1,5 +1,4 @@
 import { useUser } from "../../context/UserContext"
-import './Messages.css'
 
 export default function Messages({messages}) {
     const {userRef} = useUser()

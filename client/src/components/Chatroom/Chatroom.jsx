@@ -1,39 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSocket } from '../../context/SocketContext';
 import { useUser } from '../../context/UserContext';
-import './Chatroom.css'
 import Messages from '../Message/Messages';
 import Login from '../Login/Login';
 
 
-export default function Chatroom() {
-    const {socket, setUsers} = useSocket()
+export default function Chatroom({roomObj}) {
     const messageRef = useRef();
     const messagesRef = useRef([])
     const [messages, setMessages] = useState([])
     const {userRef, login} = useUser()
-
-    useEffect(() => {
-        socket.on("server-call", (serverCall) => {
-            console.log("RECIEVED FROM SERVER", serverCall)
-            messagesRef.current.push(serverCall)
-            setUsers(serverCall.userSocketMap)
-            console.log("current message ref", messagesRef.current)
-            setMessages([])
-        })
-
-        socket.on("message_recieved", (messageObj) => {
-            console.log("Recieved from Server ->", messageObj)
-            messagesRef.current.push(messageObj)
-            console.log("current message ref", messagesRef.current)
-            setMessages([])
-        })
-
-        return () => {
-            socket.off("message_recieved");
-            socket.off("server-call");
-        }
-    }, [socket])
 
     useEffect(() => {
         const element = document.getElementById("message-box")
@@ -62,19 +38,19 @@ export default function Chatroom() {
         messageRef.current = e.target.value;
     }
 
-    return <div className="chatroom-container" >
+    
+
+    return <div className="chatroom-container container" >
         {/* top bar */}
         <div className="topbar">
-            <p className='title'>Daily Chat</p>
-            
+            <p className='title'>{roomObj.name}</p>
+            <div className="grabme">| | | | | | |</div>
             <div className="info">
                 <div>Live</div>
                 <div className={`${login ? 'live-box' : 'nonlive-box'}`}></div>
             </div>
         </div>
 
-        {/* login */}
-        <Login/>
 
         {/* display screen for posts */}
         <div id="message-box" className="messages-container">
